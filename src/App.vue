@@ -1,17 +1,15 @@
 <template>
   <div class="container column">
     <FormCard :typesOfRecord="typesOfRecord" @addItem="addItem"/>
-
     <div class="card card-w70">
-      <h1>Резюме Nickname</h1>
-      <div class="avatar">
-        <img src="https://cdn.dribbble.com/users/5592443/screenshots/14279501/drbl_pop_r_m_rick_4x.png" alt="img">
-      </div>
-      <h2>Опыт работы</h2>
-      <p>
-        главный герой американского мультсериала «Рик и Морти», гениальный учёный, изобретатель, атеист (хотя в некоторых сериях он даже молится Богу, однако, каждый раз после чудесного спасения ссылается на удачу и вновь отвергает его существование), алкоголик, социопат, дедушка Морти. На момент начала третьего сезона ему 70 лет[1]. Рик боится пиратов, а его главной слабостью является некий - "Санчезиум". Исходя из того, что существует неограниченное количество вселенных, существует неограниченное количество Риков, герой сериала предположительно принадлежит к измерению С-137. В серии комикcов Рик относится к измерению C-132, а в игре «Pocket Mortys» — к измерению C-123[2]. Прототипом Рика Санчеза является Эмметт Браун, герой кинотрилогии «Назад в будущее»[3].
-      </p>
-      <h3>Добавьте первый блок, чтобы увидеть результат</h3>
+      <template v-if="records.length">
+        <component v-for="record in records"
+                   :is="record.activeType"
+                   :fieldVal="record.field"
+                   :key="record"
+        ></component>
+      </template>
+      <h3 v-else>Добавьте первый блок, чтобы увидеть результат</h3>
     </div>
   </div>
 
@@ -23,37 +21,38 @@
 <script>
 import CommentCard from "@/components/CommentCard"
 import FormCard from "@/components/FormCard"
+import ComponentAvatar from "@/components/ComponentAvatar";
+import ComponentEmail from "@/components/ComponentEmail";
+import ComponentSubTitle from "@/components/ComponentSubTitle";
+import ComponentText from "@/components/ComponentText";
+import ComponentTitle from "@/components/ComponentTitle";
 
 export default {
-  components: {CommentCard, FormCard},
+  components: {
+    CommentCard,
+    FormCard,
+    ComponentAvatar,
+    ComponentEmail,
+    ComponentSubTitle,
+    ComponentText,
+    ComponentTitle
+  },
   data() {
     return {
+      records: [],
       typesOfRecord: {
-        componentTitle: 'Заголовок',
-        componentSubTitle: 'Подзаголовок',
-        componentAvatar: 'Аватар',
-        componentText: 'Текст',
-        componentEmail: 'Email',
+        ComponentTitle:     'Заголовок',
+        ComponentSubTitle:  'Подзаголовок',
+        ComponentAvatar:    'Аватар',
+        ComponentText:      'Текст',
+        ComponentEmail:     'Email',
       }
     }
   },
   methods: {
     addItem(data){
-      console.log("data",data)
+      this.records.push(data)
     }
   }
 }
 </script>
-
-<style>
-.avatar {
-  display: flex;
-  justify-content: center;
-}
-
-.avatar img {
-  width: 150px;
-  height: auto;
-  border-radius: 50%;
-}
-</style>

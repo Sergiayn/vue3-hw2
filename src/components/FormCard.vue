@@ -12,7 +12,7 @@
 
     <div class="form-control">
       <label for="value">Значение</label>
-      <textarea id="value" name="value" rows="3" v-model="field" @input="checkForm"></textarea>
+      <textarea id="value" name="value" rows="3" v-model.trim="field" @input="checkForm"></textarea>
     </div>
 
     <div v-for="error in errors" :key="error" class="alert" :class="error.type">
@@ -31,6 +31,7 @@ export default {
   created() {
     this.resetActiveType()
   },
+  emits:['addItem'],
   props: {
     typesOfRecord: {
       type: Object,
@@ -63,7 +64,7 @@ export default {
           type: 'danger'
         });
       }
-      if(this.activeType === 'componentEmail' && !this.regexEmail.test(this.field)){
+      if(this.activeType === 'ComponentEmail' && !this.regexEmail.test(this.field)){
         this.errors.push({
           title:'Укажите корректный адрес электронной почты.',
           type: 'warning'
