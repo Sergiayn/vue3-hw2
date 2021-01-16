@@ -1,6 +1,6 @@
 <template>
   <div class="container column">
-    <FormCard/>
+    <FormCard :typesOfRecord="typesOfRecord" @addItem="addItem"/>
 
     <div class="card card-w70">
       <h1>Резюме Nickname</h1>
@@ -25,7 +25,23 @@ import CommentCard from "@/components/CommentCard"
 import FormCard from "@/components/FormCard"
 
 export default {
-  components: {CommentCard, FormCard}
+  components: {CommentCard, FormCard},
+  data() {
+    return {
+      typesOfRecord: {
+        componentTitle: 'Заголовок',
+        componentSubTitle: 'Подзаголовок',
+        componentAvatar: 'Аватар',
+        componentText: 'Текст',
+        componentEmail: 'Email',
+      }
+    }
+  },
+  methods: {
+    addItem(data){
+      console.log("data",data)
+    }
+  }
 }
 </script>
 

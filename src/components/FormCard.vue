@@ -2,29 +2,89 @@
   <form class="card card-w30">
     <div class="form-control">
       <label for="type">Тип блока</label>
-      <select id="type">
-        <option value="title">Заголовок</option>
-        <option value="subtitle">Подзаголовок</option>
-        <option value="avatar">Аватар</option>
-        <option value="text">Текст</option>
+      <select id="type" v-model="activeType" @change="checkForm">
+        <option v-for="(item, ids) in typesOfRecord"
+                :value="ids" :key="ids" name="typeOfRecord">
+          {{item}}
+        </option>
       </select>
     </div>
 
     <div class="form-control">
       <label for="value">Значение</label>
-      <textarea id="value" rows="3"></textarea>
+      <textarea id="value" name="value" rows="3" v-model="field" @input="checkForm"></textarea>
     </div>
 
-    <button class="btn primary">Добавить</button>
+    <div v-for="error in errors" :key="error" class="alert" :class="error.type">
+      {{error.title}}
+    </div>
+
+    <button class="btn primary" :disabled="disableButton" @click.prevent="addItem">
+      Добавить
+    </button>
   </form>
 </template>
 
 <script>
 export default {
   name: 'FormCard',
+  created() {
+    this.resetActiveType()
+  },
+  props: {
+    typesOfRecord: {
+      type: Object,
+      default: function () {return {componentTitle: 'Заголовок'}}
+    }
+  },
+  data() {
+    return {
+      activeType: null,
+      disableButton: true,
+      field: '',
+      regexEmail: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      errors: [],
+    }
+  },
+  methods: {
+    addItem(){
+      if(this.checkForm()) {
+        const data = {activeType: this.activeType, field:this.field}
+        this.$emit('addItem', data)
+        this.resetActiveType()
+      }
+    },
+    checkForm() {
+      this.errors = []
+
+      if(this.field.length < 4) {
+        this.errors.push({
+          title:'Поле должно содержать минимум 4 символа',
+          type: 'danger'
+        });
+      }
+      if(this.activeType === 'componentEmail' && !this.regexEmail.test(this.field)){
+        this.errors.push({
+          title:'Укажите корректный адрес электронной почты.',
+          type: 'warning'
+        });
+      }
+
+      if (this.errors.length) {
+        this.disableButton = true
+        return false
+      } else {
+        this.disableButton = false
+        return true
+      }
+    },
+    resetActiveType() {
+      const index = Object.keys(this.typesOfRecord)[0]
+      if(index) {
+        this.activeType = index
+      }
+      this.field = ''
+    }
+  }
 }
 </script>
-
-<style scoped>
-
-</style>
