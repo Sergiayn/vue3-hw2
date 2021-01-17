@@ -21,20 +21,17 @@
 import axios from 'axios'
 export default {
   name: 'CommentCard',
-  created() {
-    axios.defaults.baseURL = this.baseUrl
-  },
   data() {
     return {
       activeLoader: false,
-      baseUrl: 'https://jsonplaceholder.typicode.com',
+      baseUrl: 'https://jsonplaceholder.typicode.com/',
       comments: []
     }
   },
   methods: {
     async loadComments() {
       this.activeLoader = true
-      const response = await axios.get('comments?_limit=42')
+      const response = await axios.get(this.baseUrl + 'comments?_limit=42')
 
       this.comments = response.data
       this.activeLoader = false

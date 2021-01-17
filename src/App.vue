@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import CommentCard from "@/components/CommentCard"
 import FormCard from "@/components/FormCard"
 import ComponentAvatar from "@/components/ComponentAvatar";
@@ -37,8 +38,13 @@ export default {
     ComponentText,
     ComponentTitle
   },
+  created() {
+    axios.defaults.baseURL = this.baseUrl
+    this.loadRecords()
+  },
   data() {
     return {
+      baseUrl: 'https://vue3-21-default-rtdb.europe-west1.firebasedatabase.app',
       records: [],
       typesOfRecord: {
         ComponentTitle:     'Заголовок',
@@ -50,9 +56,25 @@ export default {
     }
   },
   methods: {
-    addItem(data){
+    async addItem(data){
+      const response = await axios.post('records.json',data)
+      if(response.data) {
+        data.name = response.data.name
+      }
       this.records.push(data)
+    },
+    async loadRecords(){
+      const response = await axios.get('records.json')
+
+      if(response.data) {
+        this.records = []
+        for (const [key, value] of Object.entries(response.data)) {
+          value.name = key
+          this.records.push(value)
+        }
+      }
     }
+
   }
 }
 </script>
