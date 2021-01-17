@@ -28,10 +28,10 @@
 <script>
 export default {
   name: 'FormCard',
-  created() {
+  mounted() {
     this.resetActiveType()
   },
-  emits:['addItem'],
+  emits: {addItem: {type: Object,require: true}},
   props: {
     typesOfRecord: {
       type: Object,
@@ -53,6 +53,14 @@ export default {
         const data = {activeType: this.activeType, field:this.field}
         this.$emit('addItem', data)
         this.resetActiveType()
+        this.disableButton = true
+        this.errors.push({
+          title:'Данные успешно добавлены',
+          type: 'primary'
+        });
+        setTimeout(() => {
+          this.errors = []
+        }, 3000)
       }
     },
     checkForm() {
