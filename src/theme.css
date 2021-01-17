@@ -124,6 +124,30 @@ h3 {
     border-color: #c25205;
 }
 
+.btn-del {
+    background: none;
+    border: none;
+    float: right;
+    max-height: 40px;
+    max-width: 40px;
+}
+.btn-del img {
+    height: 100%;
+    width: 100%;
+}
+
+.component-list {
+    list-style-type: none;
+}
+.component-list li {
+    border-bottom: 1px dotted grey;
+    min-height: 40px;
+    padding: 10px 0;
+}
+.component-list li:last-child {
+    border-bottom: none;
+}
+
 .container {
     margin: 0 auto;
     max-width: 1000px;

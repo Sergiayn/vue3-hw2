@@ -2,13 +2,11 @@
   <div class="container column">
     <FormCard :typesOfRecord="typesOfRecord" @addItem="addItem"/>
     <div class="card card-w70">
-      <template v-if="records.length">
-        <component v-for="record in records"
-                   :is="record.activeType"
-                   :fieldVal="record.field"
-                   :key="record"
-        ></component>
-      </template>
+      <ul v-if="records.length" class="component-list">
+        <li v-for="record in records" :key="record">
+          <component :is="record.activeType" :fieldVal="record.field" :itemName="record.name" @deleteItem="deleteItem"></component>
+        </li>
+      </ul>
       <h3 v-else>Добавьте первый блок, чтобы увидеть результат</h3>
     </div>
   </div>
@@ -73,6 +71,12 @@ export default {
           this.records.push(value)
         }
       }
+    },
+    async deleteItem(data) {
+      let removeIndex = -1
+      this.records.filter((item,idx) => {if(data === item.name) {removeIndex = idx}})
+      this.records.splice(removeIndex, 1);
+      await axios.delete(`records/${data}.json`)
     }
 
   }
