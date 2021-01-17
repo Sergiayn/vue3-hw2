@@ -38,7 +38,7 @@ export default {
     ComponentText,
     ComponentTitle
   },
-  created() {
+  mounted() {
     axios.defaults.baseURL = this.baseUrl
     this.loadRecords()
   },
