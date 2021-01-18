@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       activeLoader: false,
-      baseUrl: 'https://jsonplaceholder.typicode.com/',
+      baseUrl: process.env.VUE_APP_COMMENT_BASE_URL,
       comments: []
     }
   },

@@ -37,7 +37,7 @@ export default {
   },
   data() {
     return {
-      baseUrl: 'https://vue3-21-default-rtdb.europe-west1.firebasedatabase.app',
+      baseUrl: process.env.VUE_APP_RESUME_BASE_URL,
       records: [],
       typesOfRecord: {
         ComponentTitle:     'Заголовок',
