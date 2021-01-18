@@ -3,7 +3,10 @@
     <FormCard :typesOfRecord="typesOfRecord" @addItem="addItem"/>
     <div class="card card-w70">
       <ul v-if="records.length" class="component-list">
-        <li v-for="record in records" :key="record">
+        <li
+            v-for="record in records"
+            :key="record"
+        >
           <button class="btn-del" @click.prevent="this.deleteItem(record.name)">
             <img src="https://img.icons8.com/plasticine/344/filled-trash.png" alt="delete item">
           </button>

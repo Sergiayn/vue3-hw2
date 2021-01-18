@@ -3,8 +3,11 @@
     <div class="form-control">
       <label for="type">Тип блока</label>
       <select id="type" v-model="activeType" @change="checkForm">
-        <option v-for="(item, ids) in typesOfRecord"
-                :value="ids" :key="ids" name="typeOfRecord">
+        <option name="typeOfRecord"
+            v-for="(item, ids) in typesOfRecord"
+            :value="ids"
+            :key="ids"
+        >
           {{item}}
         </option>
       </select>
@@ -15,7 +18,11 @@
       <textarea id="value" name="value" rows="3" v-model.trim="field" @input="checkForm"></textarea>
     </div>
 
-    <div v-for="error in errors" :key="error" class="alert" :class="error.type">
+    <div class="alert"
+         v-for="error in errors"
+         :key="error"
+         :class="error.type"
+    >
       {{error.title}}
     </div>
 

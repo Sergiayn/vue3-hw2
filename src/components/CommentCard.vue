@@ -5,7 +5,10 @@
   <div class="card" v-if="comments.length">
     <h2>Комментарии</h2>
     <ul class="list">
-      <li class="list-item" v-for="comment in comments" :key="comment.id">
+      <li class="list-item"
+          v-for="comment in comments"
+          :key="comment.id"
+      >
         <div>
           <h3>{{comment.name}}</h3>
           <p><strong>{{comment.email}}</strong></p>
