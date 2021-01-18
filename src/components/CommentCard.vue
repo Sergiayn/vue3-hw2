@@ -31,9 +31,14 @@ export default {
   methods: {
     async loadComments() {
       this.activeLoader = true
-      const response = await axios.get(this.baseUrl + 'comments?_limit=42')
 
-      this.comments = response.data
+      try {
+        const response = await axios
+            .get(this.baseUrl + 'comments?_limit=42')
+            .catch(() => {throw new Error('Error in file CommentCard in method loadComments')})
+        this.comments = response.data
+      } catch (e) {console.warn(e.message)}
+
       this.activeLoader = false
     }
   }

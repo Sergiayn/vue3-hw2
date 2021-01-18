@@ -50,28 +50,44 @@ export default {
   },
   methods: {
     async addItem(data){
-      const response = await axios.post('records.json',data)
-      if(response.data) {
-        data.name = response.data.name
-      }
+      try {
+        const response = await axios
+            .post('records.json',data)
+            .catch(() => {throw new Error('Error in file ResumeCard in method addItem')})
+
+        if(response.data) {
+          data.name = response.data.name
+        }
+      } catch (e) {console.warn(e.message)}
+
       this.records.push(data)
     },
     async loadRecords(){
-      const response = await axios.get('records.json')
+      try {
+        const response = await axios
+            .get('records.json')
+            .catch(() => {throw new Error('Error in file ResumeCard in method loadRecords')})
 
-      if(response.data) {
-        this.records = []
-        for (const [key, value] of Object.entries(response.data)) {
-          value.name = key
-          this.records.push(value)
+        if(response.data) {
+          this.records = []
+          for (const [key, value] of Object.entries(response.data)) {
+            value.name = key
+            this.records.push(value)
+          }
         }
-      }
+      } catch (e) {console.warn(e.message)}
     },
     async deleteItem(data) {
       let removeIndex = -1
-      this.records.filter((item,idx) => {if(data === item.name) {removeIndex = idx}})
+      const isEqualItem = (element) => element.name === data;
+      this.records.findIndex(isEqualItem)
       this.records.splice(removeIndex, 1);
-      await axios.delete(`records/${data}.json`)
+      try {
+        await axios
+            .delete(`records/${data}.json`)
+            .catch(() => {throw new Error('Error in file ResumeCard in method deleteItem')})
+      } catch (e) {console.warn(e.message)}
+
     }
 
   }
