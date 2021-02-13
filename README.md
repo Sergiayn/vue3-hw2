@@ -1,5 +1,8 @@
 # vue3-hw2
 
+## Demo
+[vue3-hw2](https://sergiayn.github.io/vue3-hw2/)
+
 ## Project setup
 ```
 npm install
